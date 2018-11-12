@@ -1,4 +1,4 @@
-(function() {
+(function () {
     Office.initialize = function (reason) {
             $(document).ready(function () {
                 $('#Filter').click(Filter);
@@ -7,51 +7,77 @@
             });
     };
 
-    function Filter() {
+    function Filter () {
         Excel.run(function (context) {
-            // get a temp sheet to process data
-            const used_range = context.workbook.worksheets.getItem("Results").getUsedRange();
-            // const new_sheet = context.workbook.worksheets.add("New");
-
-            used_range.load('values');
+            // filter useful data to a new sheet
+            const USED_RANGE = context.workbook.worksheets.getItem("Results").getUsedRange();
+            // const NEW_SHEET = context.workbook.worksheets.add("New");
+            const REGEX = /([a-zA-Z ]{1,})(?=\_[0-9]{1,})/g;
+            const DATA_THAT_I_NEED = [
+                "Copper Loss",
+                "Rotational Loss",
+                "Inverter Loss",
+                "Motor Loss",
+                "System Loss",
+                "Total Loss",
+                "Calculated System Efficiency",
+                "Calculated Motor Efficiency",
+                "Calculated Inverter Efficiency"
+            ];
+            USED_RANGE.load('values');
             return context.sync()
-                .then(function() {
-                    var regex = /([a-zA-Z ]{1,})(?=\_[0-9]{1,})/g;
-                    var myjson = [];
-                    for (var i = 0; i < used_range.values.length; i++) {
-                        if (regex.test(used_range.values[i][0])) {
-                            var json = {};
-                            json[used_range.values[i][0].match(regex)] = used_range.values[i][3];
-                            myjson.push(json);
+                .then(function () {
+                    // convert to JSON
+                    var data = {};
+                    // initialize
+                    for (var i in DATA_THAT_I_NEED) {
+                        data[DATA_THAT_I_NEED[i]] = [];
+                    }
+                    for (var i = 0; i < USED_RANGE.values.length; i++) {
+                        // match string and valid it to see if it is in the list
+                        if (REGEX.test(USED_RANGE.values[i][0]) && (DATA_THAT_I_NEED.indexOf(USED_RANGE.values[i][0].match(REGEX)[0]) > -1)) {
+                            data[(USED_RANGE.values[i][0].match(REGEX))[0]].push(USED_RANGE.values[i][3]);
                         }
                     }
-                    console.log(myjson);
+                    return context.sync()
+                        .then(function () {
+                            console.log(data);
+                        });
                 });
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
             console.log("Error: " + error);
-            if (error instanceof OfficeExtension.Error) {
-                console.log("Debug info: " + JSON.stringify(error.debugInfo));
-            }
-        });
-     }
-
-    function new1() {
-        Excel.run(function (context) {
-            
-        })
-        .catch(function (error) {
             if (error instanceof OfficeExtension.Error) {
                 console.log("Debug info: " + JSON.stringify(error.debugInfo));
             }
         });
     }
 
-    function new2() {
+    function new1 () {
         Excel.run(function (context) {
 
-        })
-        .catch(function (error) {
+            return context.sync().then(function () {
+                var str1 = {
+                    "name1": ["Marry", "Jack"],
+                    "name2": []
+                };
+                console.log("before \n" + str1["name3"] + "\n");
+                str1["name3"] = [];
+                str1["name3"].push("Laowang");
+                str1["name3"].push(999);
+                console.log("after \n" + str1["name3"] + "\n");
+                console.log(typeof(str1["name3"][1]));
+            });
+        }).catch(function (error) {
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
+        });
+    }
+
+    function new2 () {
+        Excel.run(function (context) {
+
+        }).catch(function (error) {
             if (error instanceof OfficeExtension.Error) {
                 console.log("Debug info: " + JSON.stringify(error.debugInfo));
             }
