@@ -1,39 +1,64 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
- * See LICENSE in the project root for license information.
- */
-
-import * as OfficeHelpers from '@microsoft/office-js-helpers';
-
-$(document).ready(() => {
-    $('#run').click(run);
-});
-  
-// The initialize function must be run each time a new page is loaded
-Office.initialize = (reason) => {
-    $('#sideload-msg').hide();
-    $('#app-body').show();
-};
-
-async function run() {
-    try {
-            await Excel.run(async context => {
-                /**
-                 * Insert your Excel code here
-                 */
-                const range = context.workbook.getSelectedRange();
-
-            // Read the range address
-            range.load('address');
-
-            // Update the fill color
-            range.format.fill.color = 'yellow';
-
-            await context.sync();
-            console.log(`The range address was ${range.address}.`);
+(function() {
+    Office.initialize = function (reason) {
+            $(document).ready(function () {
+                $('#Filter').click(Filter);
+                $('#NEW1').click(new1);
+                $('#NEW2').click(new2);
             });
-        } catch(error) {
-            OfficeHelpers.UI.notify(error);
-            OfficeHelpers.Utilities.log(error);
-        };
-}
+    };
+
+    function Filter() {
+        Excel.run(function (context) {
+            // get a temp sheet to process data
+            const used_range = context.workbook.worksheets.getItem("Results").getUsedRange();
+            // const new_sheet = context.workbook.worksheets.add("New");
+
+            used_range.load('values');
+            return context.sync()
+                .then(function() {
+                    var regex = /([a-zA-Z ]{1,})(?=\_[0-9]{1,})/g;
+                    var myjson = [];
+                    for (var i = 0; i < used_range.values.length; i++) {
+                        if (regex.test(used_range.values[i][0])) {
+                            var json = {};
+                            json[used_range.values[i][0].match(regex)] = used_range.values[i][3];
+                            myjson.push(json);
+                        }
+                    }
+                    console.log(myjson);
+                });
+        })
+        .catch(function (error) {
+            console.log("Error: " + error);
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
+        });
+     }
+
+    function new1() {
+        Excel.run(function (context) {
+            
+        })
+        .catch(function (error) {
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
+        });
+    }
+
+    function new2() {
+        Excel.run(function (context) {
+
+        })
+        .catch(function (error) {
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
+        });
+    }
+
+})();
+
+
+
