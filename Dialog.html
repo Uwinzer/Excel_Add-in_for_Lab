@@ -6,14 +6,39 @@
 <head>
     <title></title>
 	<meta charset="utf-8" />
-    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
-    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.debug.js"></script>
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="node_modules/office-ui-fabric-js/dist/js/fabric.js"></script>
+ 
+    <!-- Plotly library-->
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="src/Dialog.js"></script>
 
     <!-- For the Office UI Fabric, go to http://aka.ms/office-ui-fabric to learn more. -->
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css">
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css">
 </head>
 <body>
+    <div id="content-header">
+        <div class="padding">
+            <h1>Dialog</h1>
+        </div>
+    </div>
+    <div id="content-main">
+        <div class="padding">
+            <button class="ms-Button" id="Show"">Show</button>
+            <div id="tester" style="width:600px;height:250px;"></div>
+        </div>
+    </div>
     
+    
+    <script>
+        TESTER = document.getElementById('tester');
+        Plotly.plot( TESTER, [{
+        x: [1, 2, 3, 4, 5],
+        y: [1, 2, 4, 8, 16] }], {
+        margin: { t: 0 } } );
+    </script>
+
 </body>
 </html>

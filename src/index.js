@@ -1,11 +1,16 @@
+/* 
+ * Home page
+*/
+
+"use strict";
+
 (function () {
-    "use strict";
     Office.initialize = function (reason) {
-            $(document).ready(function () {
-                $('#Filter').click(Filter);
-                $('#NEW1').click(new1);
-                $('#NEW2').click(RGNameSpace.rgDialog.openDialog);
-            });
+        $(document).ready(function () {
+            $('#Filter').click(Filter);
+            $('#NEW1').click(new1);
+            $('#NEW2').click(openDialog);
+        });
     };
 
     function Filter () {
@@ -75,4 +80,22 @@
         });
     }
 
+    var dialog;
+    function openDialog () {
+        Office.context.ui.displayDialogAsync(window.location.origin + "/Dialog.html",
+        { height: 50, width: 50 }, 
+        dialogCallback);
+        // console.log(window.location.origin);
+    }
+    
+    function dialogCallback (asyncResult) {
+        dialog = asyncResult.value;
+        dialog.addEventHandler(Office.EventType.DialogMessageReceived, messageHandler);
+        console.log("called callback");
+        // console.log(result);
+    }
+
+    function messageHandler (arg) {
+        console.log(arg.message);
+    }
 })();

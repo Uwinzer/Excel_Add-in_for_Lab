@@ -1,17 +1,20 @@
-(function () {
-    // register name space
-    var RGNameSpace = window.RGNameSpace || {};
-    RGNameSpace.rgDialog = {};
+/* 
+ * Dialog page
+*/
 
-    RGNameSpace.rgDialog.openDialog = function () {
-        Office.context.ui.displayDialogAsync(window.location.origin + "/Dialog.html",
-        { height: 50, width: 50 }, dialogCallback);
-        console.log(window.location.origin);
+"use strict";
+
+(function () {
+    Office.initialize = function (reason) {
+        $(document).ready(function () {
+            $('#Show').click(show);
+        });
+    };
+    // register name space
+    // var Dialog = window.rGenerator.Dialog || {};
+    // window.rGenerator.Dialog = Dialog;
+    function show () {
+        Office.context.ui.messageParent("message sent");
     };
     
-    function dialogCallback (result) {
-        console.log("called callback");
-        // console.log(result);
-    }
-    window.RGNameSpace = RGNameSpace;
 })();
