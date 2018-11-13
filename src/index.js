@@ -1,9 +1,10 @@
 (function () {
+    "use strict";
     Office.initialize = function (reason) {
             $(document).ready(function () {
                 $('#Filter').click(Filter);
                 $('#NEW1').click(new1);
-                $('#NEW2').click(new2);
+                $('#NEW2').click(RGNameSpace.rgDialog.openDialog);
             });
     };
 
@@ -54,18 +55,8 @@
 
     function new1 () {
         Excel.run(function (context) {
-
             return context.sync().then(function () {
-                var str1 = {
-                    "name1": ["Marry", "Jack"],
-                    "name2": []
-                };
-                console.log("before \n" + str1["name3"] + "\n");
-                str1["name3"] = [];
-                str1["name3"].push("Laowang");
-                str1["name3"].push(999);
-                console.log("after \n" + str1["name3"] + "\n");
-                console.log(typeof(str1["name3"][1]));
+                
             });
         }).catch(function (error) {
             if (error instanceof OfficeExtension.Error) {
@@ -85,6 +76,3 @@
     }
 
 })();
-
-
-

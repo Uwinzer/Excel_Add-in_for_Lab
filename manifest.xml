@@ -16,7 +16,7 @@
   <ProviderName>Fang</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
-  <DisplayName DefaultValue="Report Generator" />
+  <DisplayName DefaultValue="Lab Report Generator" />
   <Description DefaultValue="Excel Add-in for report generating"/>
 
   <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
@@ -130,8 +130,8 @@
       </bt:Urls>
       <!-- ShortStrings max characters==125. -->
       <bt:ShortStrings>
-        <bt:String id="Contoso.TaskpaneButton.Label" DefaultValue="Show Taskpane" />
-        <bt:String id="Contoso.Group1Label" DefaultValue="Commands Group" />
+        <bt:String id="Contoso.TaskpaneButton.Label" DefaultValue="Open Pane" />
+        <bt:String id="Contoso.Group1Label" DefaultValue="Lab Report Generator" />
         <bt:String id="Contoso.GetStarted.Title" DefaultValue="Get started with your sample add-in!" />
       </bt:ShortStrings>
       <!-- LongStrings max characters==250. -->
