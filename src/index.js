@@ -8,12 +8,12 @@
     Office.initialize = function (reason) {
         $(document).ready(function () {
             $('#Filter').click(Filter);
-            $('#NEW1').click(new1);
+            $('#NEW1').click(compute);
             $('#NEW2').click(openDialog);
         });
     };
 
-    function Filter () {
+    async function Filter () {
         var sheet = "Results";
         var regex = /([a-zA-Z ]{1,})(?=\_[0-9]{1,})/g;
         var data_that_i_need = [
@@ -27,32 +27,14 @@
             "Calculated Motor Efficiency",
             "Calculated Inverter Efficiency"
         ];
-        window.rGenerator.ExcelOP.Filter(sheet, regex, data_that_i_need);
+        var data = await rGenerator.ExcelOP.Filter(sheet, regex, data_that_i_need);
+        var fdata = rGenerator.ExcelOP.Formater(data, 8, 2);
+
+        console.log(data);
+        console.log(fdata);
         return;
     }
-
-    function new1 () {
-        Excel.run(function (context) {
-            return context.sync().then(function () {
-                
-            });
-        }).catch(function (error) {
-            if (error instanceof OfficeExtension.Error) {
-                console.log("Debug info: " + JSON.stringify(error.debugInfo));
-            }
-        });
-    }
-
-    function new2 () {
-        Excel.run(function (context) {
-
-        }).catch(function (error) {
-            if (error instanceof OfficeExtension.Error) {
-                console.log("Debug info: " + JSON.stringify(error.debugInfo));
-            }
-        });
-    }
-
+// --------------test code----------------------------------
     var dialog;
     function openDialog () {
         Office.context.ui.displayDialogAsync(window.location.origin + "/Dialog.html",
@@ -71,4 +53,29 @@
     function messageHandler (arg) {
         console.log(arg.message);
     }
+
+    function getSomething() {
+        var r = 0;
+        var data = [];
+        return new Promise(function(resolve) {
+            data.push(1);
+            data.push(666);
+            data.push("fuck");
+            setTimeout(function() {
+                r = 2;
+                resolve(r);
+            }, 2000);
+        }).then(function () {
+            return new Promise(function (resolve, reject) {
+                resolve(data);
+            });
+        });
+    }
+    
+    async function compute() {
+        // var x = await getSomething();
+        // console.log(x * 2);
+        console.log(await getSomething());
+    }
+
 })();
