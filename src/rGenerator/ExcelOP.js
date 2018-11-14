@@ -16,10 +16,11 @@
 
     /*
      * filter useful data to a new sheet
+     * NOTE: FUNCTIONS MUST BE "async" TYPE WHERE THIS FILTER IS USED
      * @param {string} sheet: sheet that filter applys for
      * @param {Regex} regex: regular expression for filtring
      * @param {array} data_headers: data header names
-     * @return {JSON} with keys in data_headers
+     * @return {Promise} resolved values with keys in data_headers
     */
     ExcelOP.Filter = function (sheet, regex, data_headers) {
         var filtered_data = {};

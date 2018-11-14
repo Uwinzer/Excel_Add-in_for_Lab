@@ -13,13 +13,19 @@
     // register name space
     // var Dialog = window.rGenerator.Dialog || {};
     // window.rGenerator.Dialog = Dialog;
+
     function show () {
-        var tester = $('#tester').get(0);
-        Plotly.plot( tester, [{
-        x: [1, 2, 3, 4, 5],
-        y: [1, 2, 4, 8, 16] }], {
-        margin: { t: 0 } } );
-        Office.context.ui.messageParent("dialog message sent");
+        var data = JSON.parse(localStorage.getItem("fuckingdata"));
+        var z = data["Copper Loss"];
+
+        var data_z1 = {z: z, type: 'surface'};
+        
+        Plotly.newPlot('tester', [data_z1]);
+        console.log("fuck");
+        console.log(data);
+        console.log(z);
+
+        Office.context.ui.messageParent("dialog button clicked");
     };
     
 })();
