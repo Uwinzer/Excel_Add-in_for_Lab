@@ -16,7 +16,11 @@
 
     function show () {
         var formated_data = JSON.parse(localStorage.getItem("formated_data"));
-        var z_arg = {};
+        if (formated_data == null) {
+            $('#tester').text("Fuck! There is no data!");
+        }
+        else {
+            var z_arg = {};
         var z_array = [];
         var count = 0;
         for (var i in formated_data) {
@@ -30,10 +34,11 @@
             }
             z_array.push(z_arg);
         }
-        
+        $('#tester').empty();
         Plotly.newPlot('tester', z_array);
+        localStorage.removeItem("formated_data");
         console.log(count);
-
+        }
         Office.context.ui.messageParent("dialog button clicked");
     };
     
