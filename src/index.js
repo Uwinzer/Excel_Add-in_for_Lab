@@ -15,7 +15,7 @@
 
     var filtered_data = {};
     var formated_data = {};
-    async function Filter () {
+    function Filter () {
         var sheet = "Results";
         var regex = /([a-zA-Z ]{1,})(?=\_[0-9]{1,})/g;
         var data_that_i_need = [
@@ -29,7 +29,8 @@
             "Calculated Motor Efficiency",
             "Calculated Inverter Efficiency"
         ];
-        filtered_data = await rGenerator.ExcelOP.Filter(sheet, data_that_i_need, regex);
+        // async function handles async operation
+        (async function () {filtered_data = await rGenerator.ExcelOP.Filter(sheet, data_that_i_need, regex);})();
         formated_data = rGenerator.ExcelOP.Formater(filtered_data, 8, 2);
         localStorage.setItem("formated_data", JSON.stringify(formated_data)); // for sharing between dialogs
         console.log(filtered_data);
@@ -63,7 +64,23 @@
     }
 
     function test () {
-        
+        console.log("In tester pp: " + p.pp());
+        console.log("In tester oo: " +p.oo());
     }
 
+    var p = {};
+    p.pp = async function () {
+        var a = new Promise(function (resolve, reject) {
+            resolve(123);
+        });
+        a = await a;
+        console.log("Within pp: " + a);
+        return a;
+    }
+    p.oo = function () {
+        var a
+        a = 123;
+        console.log("Within oo: " + a);
+        return a;
+    }
 })();
