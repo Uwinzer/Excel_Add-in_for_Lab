@@ -40,15 +40,9 @@
                             filtered_data[USED_RANGE.values[i][0].match(regex)[0]].push(USED_RANGE.values[i][3]);
                         }
                     }
-                    return context.sync()
-                        .then(function () {
-                            // console.log(filtered_data);
-                        });
                 });
         }).then(function () {
-            return new Promise(function (resolve, reject) {
-                resolve(filtered_data);
-            });
+            return Promise.resolve(filtered_data);
         }).catch(function (error) {
             console.log("Error: " + error);
             if (error instanceof OfficeExtension.Error) {

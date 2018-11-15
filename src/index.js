@@ -29,13 +29,14 @@
             "Calculated Motor Efficiency",
             "Calculated Inverter Efficiency"
         ];
-        // async function handles async operation
-        (async function () {filtered_data = await rGenerator.ExcelOP.Filter(sheet, data_that_i_need, regex);})();
-        formated_data = rGenerator.ExcelOP.Formater(filtered_data, 8, 2);
-        localStorage.setItem("formated_data", JSON.stringify(formated_data)); // for sharing between dialogs
-        console.log(filtered_data);
-        console.log(formated_data);
-        return;
+        // use promise to handle async operation
+        rGenerator.ExcelOP.Filter(sheet, data_that_i_need, regex).then(function (data) {
+            filtered_data = data;
+            formated_data = formated_data = rGenerator.ExcelOP.Formater(filtered_data, 8, 2);
+            localStorage.setItem("formated_data", JSON.stringify(formated_data));
+            console.log(filtered_data);
+            console.log(formated_data);
+        });
     }
 
 // --------------test code----------------------------------
@@ -63,24 +64,7 @@
         console.log(arg.message);
     }
 
-    function test () {
-        console.log("In tester pp: " + p.pp());
-        console.log("In tester oo: " +p.oo());
+    async function test () {
     }
 
-    var p = {};
-    p.pp = async function () {
-        var a = new Promise(function (resolve, reject) {
-            resolve(123);
-        });
-        a = await a;
-        console.log("Within pp: " + a);
-        return a;
-    }
-    p.oo = function () {
-        var a
-        a = 123;
-        console.log("Within oo: " + a);
-        return a;
-    }
 })();

@@ -17,7 +17,7 @@
     function show () {
         var formated_data = JSON.parse(localStorage.getItem("formated_data"));
         if (formated_data == null) {
-            $('#tester').text("Fuck! There is no data!");
+            $('#tester').text("No Data! Use Filter before ploting!");
         }
         else {
             var z_arg = {};
