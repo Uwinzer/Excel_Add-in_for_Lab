@@ -22,7 +22,7 @@
      * @param {array} data_headers: data header names
      * @return {Promise} resolved values with keys in data_headers
     */
-    ExcelOP.Filter = function (sheet, regex, data_headers) {
+    ExcelOP.Filter = function (sheet, data_headers, regex) {
         var filtered_data = {};
         // initialize
         for (var i in data_headers) {
